@@ -47,11 +47,16 @@ sha256sum -c clearvue-connector-agent-<version>-win-x64.zip.sha256
 
 ### 2. Check the signature
 
-Unzip, then:
+**Unzipping produces one folder, named exactly like the zip** — `clearvue-connector-agent-<version>-win-x64` — and everything lives inside it. Step into it first; the commands below and in the installer are all relative to it.
 
 ```powershell
+Expand-Archive .\clearvue-connector-agent-<version>-win-x64.zip -DestinationPath .
+cd .\clearvue-connector-agent-<version>-win-x64
+
 Get-AuthenticodeSignature .\agent\ClearVue.ConnectorAgent.exe | Format-List Status, SignerCertificate, TimeStamperCertificate
 ```
+
+> If you extracted with Windows Explorer's **Extract All**, it adds a folder of its own named after the zip, so you will have that name twice nested. Keep going until you see `agent` and `install` side by side — that is the folder every command here means.
 
 `Status` should be **`Valid`**, and the signer should be:
 
@@ -79,7 +84,7 @@ If you run WDAC, AppLocker, or application-control policy in your endpoint prote
 
 ## Install
 
-From an **elevated** PowerShell prompt, in the unzipped folder:
+From an **elevated** PowerShell prompt, in the `clearvue-connector-agent-<version>-win-x64` folder from step 2 — the one containing `agent` and `install`:
 
 ```powershell
 cd install
@@ -95,13 +100,16 @@ Your ClearVue tenant administrator provides the `AgentId` and the enrollment tok
 ## What is in the package
 
 ```
-agent/                     the service executable (self-contained, signed)
-install/                   Install-ClearVueAgent.ps1, Uninstall-ClearVueAgent.ps1,
-                           appsettings.template.json
-README.txt                 install + upgrade + uninstall walkthrough
-release-manifest.json      version, executable SHA-256, and signed true|false
-THIRD-PARTY-NOTICES.txt    licenses for every open-source component included
+clearvue-connector-agent-<version>-win-x64/    everything is inside this one folder
+├── agent/                     the service executable (self-contained, signed)
+├── install/                   Install-ClearVueAgent.ps1, Uninstall-ClearVueAgent.ps1,
+│                              appsettings.template.json
+├── README.txt                 install + upgrade + uninstall walkthrough
+├── release-manifest.json      version, executable SHA-256, and signed true|false
+└── THIRD-PARTY-NOTICES.txt    licenses for every open-source component included
 ```
+
+The wrapping folder is deliberate — it keeps an extraction from scattering files across whatever directory you unzipped into. `README.txt` sits at its root, so the paths *inside* that file are already relative to the right place.
 
 **`release-manifest.json` states outright whether the build was signed.** If you ever receive a build where it says `"signed": false`, the release notes will say so prominently too — such a build is installable but unsigned, and should be allowlisted by hash rather than by publisher.
 
