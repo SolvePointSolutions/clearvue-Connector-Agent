@@ -1,28 +1,3 @@
-# Connector Agent — public distribution repo README (source of truth)
-
-**Breadcrumb:** [docs](../../) → [modules](../) → [Integrations](./) → dist-repo README
-**Status:** Active. Drafted 2026-09-19 (SOL-804). **Not yet published** — the dist repo does not exist yet.
-
----
-
-## What this file is, and why it lives here
-
-This is the **source of truth** for the `README.md` published at the root of the public distribution repo **`SolvePointSolutions/clearvue-connector-agent`** — the repo named as `DIST_REPO` in [`release-connector-agent.yml`](../../../.github/workflows/release-connector-agent.yml) and required by [connector-agent-distribution.md](connector-agent-distribution.md)'s prerequisites to carry at least one commit before any Release tag can be cut against it.
-
-**Edit here, then republish there.** A public repo's front page is the first thing a customer's IT sees, and ClearVueSaaS is where it gets reviewed. If it is only ever edited in the public repo, there is no record in this repository of what we told customers, and no reviewer sees it before it ships.
-
-> ⚠️ **This is a second copy, and copies drift.** The publisher identity below now exists in four places: the [code-signing page](connector-agent-code-signing.md) (canonical), the release-notes generator inside `release-connector-agent.yml`, this file, and — once published — the public repo. **The code-signing page is canonical.** If they ever disagree, it wins and the others are wrong. Nothing enforces that; it is a known, accepted drift surface, and the alternative (generating this file from the certificate at release time) is more machinery than one README is worth today.
-
-**Publishing it is a manual step**, deliberately: the dist repo holds no source, has no CI, and is written to only by the release workflow's `gh release create`. Nothing automates a README push, and adding that would mean granting the token `contents: write` on a path it otherwise never touches.
-
----
-
-## Everything below this line is the published README
-
-Copy from the heading below to the end of the file. Do not include this section or the one above it.
-
----
-
 # ClearVue Connector Agent
 
 Official distribution point for the **ClearVue Connector Agent** — the on-premises Windows service that connects an ERP system (QAD MFG/PRO) to the ClearVue platform.
